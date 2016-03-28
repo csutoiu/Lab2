@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import ro.pub.cs.systems.eim.lab02.activitylifecyclemonitor.R;
@@ -68,9 +69,43 @@ public class LifecycleMonitorActivity extends Activity {
 		Button cancelButton = (Button)findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(buttonClickListener);
 		
-		Log.d(Constants.TAG, "onCreate() method was invoked");
+		if(savedInstanceState != null) {
+			Log.d(Constants.TAG, "onCreate() method was invocked");
+		} else {
+			Log.d(Constants.TAG, "onCreate() method was invoked for the first time");
+		}
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.d(Constants.TAG, "onPause() method was invoked");
 	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.d(Constants.TAG, "onStart() method was invoked");
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.d(Constants.TAG, "onStop() method was invoked");
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.d(Constants.TAG, "onDestroy() method was invoked");
+	}
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		Log.d(Constants.TAG, "onRestart() method was invoked");
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -88,5 +123,20 @@ public class LifecycleMonitorActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		CheckBox checkbox = (CheckBox)findViewById(R.id.remember_me_checkbox);
+		savedInstanceState.putBoolean("checkbox_state", checkbox.isChecked());
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		CheckBox checkBox = (CheckBox)findViewById(R.id.remember_me_checkbox);
+		checkBox.setChecked(savedInstanceState.getBoolean("checkbox_state"));
+		
 	}
 }
